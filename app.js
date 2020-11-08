@@ -26,6 +26,28 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api/v1/todos', todosRouter);
 
+
+
+const swaggerJsdoc = require('swagger-jsdoc');
+
+const options = {
+  swaggerDefinition: {
+    // Like the one described here: https://swagger.io/specification/#infoObject
+    info: {
+      title: 'Todos API',
+      version: '1.0.0',
+      description: 'Todo API demo',
+    },
+  },
+  // List of files to be processes. You can also set globs './routes/*.js'
+  apis: ['./routes/*.js'],
+};
+
+const specs = swaggerJsdoc(options);
+const swaggerUi = require('swagger-ui-express');
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
+
 // // catch 404 and forward to error handler
 // app.use(function(req, res, next) {
 //   next(createError(404));

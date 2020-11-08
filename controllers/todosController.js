@@ -5,6 +5,11 @@ exports.get = async function (req, res) {
     res.send(todos);
 };
 
+exports.getById = async function (req, res) {
+    let todo = await Todo.findOne({_id: req.params.id});
+    res.send(todo);
+};
+
 exports.post = async function (req, res) {
     const newTodo = new Todo({
         dueDate: req.body.dueDate,
@@ -23,11 +28,11 @@ exports.patch = async function (req, res) {
         completed: req.body.completed,
     };
 
-    await Todo.findOneAndUpdate({_id: req.route.id}, updateData); 
+    await Todo.findOneAndUpdate({_id: req.params.id}, updateData); 
     res.sendStatus(200);   
 };
 
 exports.delete = async function (req, res) {
-    await Todo.findOneAndDelete({_id: req.route.id});
+    await Todo.findOneAndDelete({_id: req.params.id});
     res.sendStatus(200);
 };
